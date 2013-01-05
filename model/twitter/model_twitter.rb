@@ -2,7 +2,7 @@ require 'pg'
 
 class ModelTwitter
 
-    DB = PG::connect(:host => "localhost", :user => "biographyconnector", :password => "ToDo", :dbname => "biographyconnector")
+    DB = PG::connect(:host => "ec2-54-243-243-176.compute-1.amazonaws.com", :user => "ygbclkxexdfglp", :password => "yq-Nx0zTQ-dxiDFJSllc-5FEkj", :dbname => "d4tk4tf7tdi5v2")
 
     def initialize(id)
         @id = id
