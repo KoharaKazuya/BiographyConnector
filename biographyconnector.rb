@@ -12,6 +12,7 @@ include TwitterOAuthKey
 
 class BiographyConnector
 
+    ROOT_URL = "http://biographyconnector.herokuapp.com/"
     PUB_DIR = "./public"
 
     def call(env)
@@ -30,7 +31,7 @@ class BiographyConnector
             else
                 session["twitter_id"] = twitter_id
                 cons = Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "http://twitter.com")
-                req_token = cons.get_request_token(:oauth_callback => "http://127.0.0.1/authorize/callback")
+                req_token = cons.get_request_token(:oauth_callback => ROOT_URL + "callback")
                 model.set_oauth_request_token({:token => req_token.token, :secret => req_token.secret})
                 return Response.new { |res|
                     res.redirect(req_token.authorize_url, 303)
