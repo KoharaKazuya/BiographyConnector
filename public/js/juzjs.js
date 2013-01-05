@@ -19,7 +19,7 @@ JuzJS = (function() {
 
     Preference.UPDATE_SPEED = 0.02;
 
-    Preference.MAX_UPDATABLE_NODES_NUM = 100;
+    Preference.MAX_UPDATABLE_NODES_NUM = 10;
 
     return Preference;
 
@@ -281,11 +281,10 @@ JuzJS = (function() {
           for (var _i = 0, _ref = nodeList.length; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
-        while (list.length > 0) {
-          console.log(list.length);
+        while (updateList.length < Preference.MAX_UPDATABLE_NODES_NUM) {
           r = Math.floor(Math.random() * list.length);
           updateList.push(nodeList[list[r]]);
-          list = list.splice(r, 1);
+          list.splice(r, 1);
         }
       } else {
         updateList = nodeList;
