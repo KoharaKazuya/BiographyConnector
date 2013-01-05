@@ -16,6 +16,7 @@ BiographyConnector
 - Bundler \(パッケージ管理システム\)
 - The Twitter Ruby Gem \(Twitter アクセス用ライブラリ\)
 - Cookie \(ブラウザ保存情報\)
+- Twitter Bootstrap \(CSS フレームワーク\)
 
 使用しなかった技術
 ------------------
