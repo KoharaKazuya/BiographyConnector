@@ -2,6 +2,6 @@
 
 require './biographyconnector'
 
-use Rack::Session::Cookie, :secret => "test", :domain => "127.0.0.1"
+use Rack::Session::Cookie, :secret => "noeafnleknazevn3", :domain => "biographyconnector.herokuapp.com"
 use Rack::Static, :urls => ["/js", "/img"], :root => "public"
 run BiographyConnector.new
