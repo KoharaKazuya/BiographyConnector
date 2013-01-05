@@ -26,16 +26,19 @@ class TwitterParser
     #   :SEARCH_TYPE_FOLLOWS フォローから
     #   :SEARCH_TYPE_FOLLOWERS フォロワーから
     #   :SEARCH_TYPE_FRIENDS フォローかつフォロワーから
-    # Param:: range 検索範囲を何ホップ先までにするか 爆発的に増えるので注意
+    #   :SEARCH_TYPE_FRIENDS フォローまたはフォロワーから
     # Return:: { "name" => ユーザー ID (文字列), "icon" => ユーザーアイコンの URL }
     #   を1ユーザーのデータとし、
     #   { "user" => id のユーザー, "bros" => {"topics"=>共通する興味の配列, "user"=>検索範囲内のユーザー} の配列 } を返す
-    def find_bros(id, type = :SEARCH_TYPE_FRIENDS, range = 1)
+    def find_bros(id, type = :SEARCH_TYPE_ACQUAINTANCE)
         # Twitter からデータを取得
         me = @client.user(id)
         case type
         when :SEARCH_TYPE_FRIENDS
             bros_ids = @client.friend_ids(id).collection & @client.follower_ids(id).collection
+            bros = @client.users(bros_ids)
+        when :SEARCH_TYPE_ACQUAINTANCE
+            bros_ids = @client.friend_ids(id).collection | @client.follower_ids(id).collection
             bros = @client.users(bros_ids)
         when :SEARCH_TYPE_FOLLOWS
             bros = @client.users(@client.friend_ids(id).collection)
