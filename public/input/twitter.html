@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charaset="utf-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>Biography Connector - 入力(Twitter)</title>
 </head>
-<body>
-    <form action="/result/twitter.html" method="get">
-        <input type="text" name="twitter_id" placeholder="Twitter の ID を入力して下さい" required>
-        <input type="submit">
-    </form>
+<body style="padding-top: 40px;">
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <span class="brand">Biography Connector</span>
+                <ul class="nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/input/twitter.html">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <fieldset>
+            <legend>Twitter でのつながり</legend>
+            <form class="form-horizontal" action="/result/twitter.html" method="get">
+                <div class="control-group">
+                    <label class="control-label">Twitter の ID を入力</label>
+                    <div class="controls">
+                        <input type="text" name="twitter_id" placeholder="Twitter ID" autofocus required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">解析する！</button>
+                        <button type="reset" class="btn">リセット</button>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    </div>
 </body>
 </html>

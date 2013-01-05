@@ -5,14 +5,38 @@
     <script src="/js/jcanvas.min.js"></script>
     <script src="/js/juzjs.js"></script>
     <script src="/js/twitter_result.js"></script>
+    <meta charaset="utf-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>Biography Connector - 解析結果</title>
 </head>
-<body>
-    <h1><%= twitter_id %> さんのつながり</h1>
-    <canvas id="twitter_result_canvas" width=940 height=600 data-root="<%= twitter_id %>">HTML5 対応ブラウザを使用して下さい。</canvas>
-    <section id="twitter_result_account_info">
-        <img class="account_icon"></img>
-        <h3 class="account_name"><a class="account_url" target="_blank"></a></h3>
-        <p class="account_description"></p>
-    </section>
+<body style="padding-top: 40px;">
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <span class="brand">Biography Connector</span>
+                <ul class="nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/input/twitter.html">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <h2><%= twitter_id %> <small>さんのつながり</small></h2>
+        </div>
+        <div class="row">
+            <div class="span3">
+                <section id="twitter_result_account_info">
+                    <img class="account_icon img-polaroid"></img>
+                    <h3 class="account_name"><a class="account_url" target="_blank"></a></h3>
+                    <p class="account_description"></p>
+                </section>
+            </div>
+            <div class="span9">
+                <canvas id="twitter_result_canvas" width=700 height=700 data-root="<%= twitter_id %>">HTML5 対応ブラウザを使用して下さい。</canvas>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
