@@ -21,8 +21,6 @@ class BiographyConnector
         session["id"] ||= rand(2 ** 64) - 2 ** 63
         model = ModelTwitter.new(session["id"])
         case req.path
-        when "/"
-            body = "<html><body>top page</body></html>"
         when "/result/twitter.html"
             twitter_id = req.params['twitter_id'] || session["twitter_id"]
             token = model.get_oauth_access_token
@@ -65,7 +63,7 @@ class BiographyConnector
                 res.redirect("/result/twitter.html?twitter_id=#{twitter_id}", 303)
             }.finish
         else
-            return Response.new { |res| res.redirect("/", 303) }.finish
+            return Response.new { |res| res.redirect("/index.html", 303) }.finish
         end
         Response.new { |res|
             res.status = 200
