@@ -1,26 +1,32 @@
-require 'sqlite3'
-
-include SQLite3
+require 'pg'
 
 class ModelTwitter
 
-    DB = Database.new("./db")
+    DB = PG::connect(:host => "localhost", :user => "biographyconnector", :password => "ToDo", :dbname => "biographyconnector")
 
     def initialize(id)
         @id = id
     end
     def get_oauth_request_token
-        token, secret = DB.execute("select token, secret from TwitterOAuthRequest where id = ?", @id)[0]
-        { :token => token, :secret => secret }
+        res = DB.exec("select * from twitter_oauth_request where id = $1::bigint;", [@id])
+        if res.values.empty?
+            { :token => nil, :secret => nil }
+        else
+            { :token => res[0]["token"], :secret => res[0]["secret"] }
+        end
     end
     def set_oauth_request_token(token)
-        DB.execute("insert into TwitterOAuthRequest values (?, ?, ?)", @id, token[:token], token[:secret])
+        DB.exec("insert into twitter_oauth_request values ($1::bigint, $2::text, $3::text);", [@id, token[:token], token[:secret]])
     end
     def get_oauth_access_token
-        token, secret = DB.execute("select token, secret from TwitterOAuthAccess where id = ?", @id)[0]
-        { :token => token, :secret => secret }
+        res = DB.exec("select * from twitter_oauth_access where id = $1::bigint;", [@id])
+        if res.values.empty?
+            { :token => nil, :secret => nil }
+        else
+            { :token => res[0]["token"], :secret => res[0]["secret"] }
+        end
     end
     def set_oauth_access_token(token)
-        DB.execute("insert into TwitterOAuthAccess values (?, ?, ?)", @id, token[:token], token[:secret])
+        DB.exec("insert into twitter_oauth_access values ($1::bigint, $2::text, $3::text);", [@id, token[:token], token[:secret]])
     end
 end
