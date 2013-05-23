@@ -17,6 +17,8 @@ BiographyConnector
 - The Twitter Ruby Gem \(Twitter アクセス用ライブラリ\)
 - Cookie \(ブラウザ保存情報\)
 - Twitter Bootstrap \(CSS フレームワーク\)
+- Igo-ruby \(形態素解析エンジン\)
+- NAIST Japanese Dictionary \(形態素解析辞書\)
 
 使用しなかった技術
 ------------------

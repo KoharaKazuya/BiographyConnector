@@ -2,12 +2,12 @@
 
 require 'twitter'
 require './parser/twitter/twitter_o_auth_key'
+require 'igo-ruby'
 
 
 class TwitterParser
 
-    SEPARATERS = ["/", "／", ",", "、", ".", "。"]
-    SEPARATER_REGEXP = Regexp.compile("[#{SEPARATERS.join}]")
+    TAGGER = Igo::Tagger.new('./parser/naistjdic')
 
     Twitter.configure do |config|
         config.consumer_key = TwitterOAuthKey::CONSUMER_KEY
@@ -61,7 +61,9 @@ class TwitterParser
 
     private
     def split_interests(description)
-        (description || "").split(SEPARATER_REGEXP).select{|i| i != ""}
+        description = description || ""
+        t = TAGGER.parse(description)
+        t.select{|m| m.feature.split(',')[1] == "固有名詞" }.map{|m| m.surface}.uniq
     end
 
     def twitter_user_to_biocon_hash(user)
