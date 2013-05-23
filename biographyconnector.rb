@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'rack/request'
 require 'rack/response'
 require 'erb'
@@ -67,7 +69,7 @@ class BiographyConnector
         end
         Response.new { |res|
             res.status = 200
-            res['Content-Type'] = "text/html;charaset=utf-8"
+            res['Content-Type'] = "text/html;charset=utf-8"
             res.write body
         }.finish
     end
