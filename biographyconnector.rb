@@ -18,7 +18,7 @@ class BiographyConnector
     def call(env)
         req = Request.new(env)
         session = req.session
-        session["id"] ||= rand(2 ** 64) - 2 ** 63
+        session["id"] ||= (rand(2 ** 32) - 2 ** 31).to_i
         model = ModelTwitter.new(session["id"])
         case req.path
         when "/result/twitter.html"
