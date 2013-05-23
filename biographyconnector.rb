@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'rack/request'
 require 'rack/response'
 require 'erb'
@@ -18,7 +20,7 @@ class BiographyConnector
     def call(env)
         req = Request.new(env)
         session = req.session
-        session["id"] ||= rand(2 ** 64) - 2 ** 63
+        session["id"] ||= (rand(2 ** 32) - 2 ** 31).to_i
         model = ModelTwitter.new(session["id"])
         case req.path
         when "/result/twitter.html"
@@ -67,7 +69,7 @@ class BiographyConnector
         end
         Response.new { |res|
             res.status = 200
-            res['Content-Type'] = "text/html;charaset=utf-8"
+            res['Content-Type'] = "text/html;charset=utf-8"
             res.write body
         }.finish
     end
