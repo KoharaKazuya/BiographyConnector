@@ -5,12 +5,10 @@ require 'rack/response'
 require 'erb'
 require 'oauth'
 require './parser/twitter/twitter_parser'
-require './parser/twitter/twitter_o_auth_key'
 require './model/twitter/model_twitter'
 
 include Rack
 include OAuth
-include TwitterOAuthKey
 
 class BiographyConnector
 
@@ -30,7 +28,7 @@ class BiographyConnector
                 body = ERB.new(File.read(PUB_DIR + "/result/twitter.html")).result(binding)
             else
                 session["twitter_id"] = twitter_id
-                cons = Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://twitter.com")
+                cons = Consumer.new(ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET'], :site => "https://twitter.com")
                 req_token = cons.get_request_token(:oauth_callback => ROOT_URL + "authorize/callback")
                 model.set_oauth_request_token({:token => req_token.token, :secret => req_token.secret})
                 return Response.new { |res|
@@ -53,7 +51,7 @@ class BiographyConnector
             end
         when "/authorize/callback"
             token = model.get_oauth_request_token
-            cons = Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://twitter.com/")
+            cons = Consumer.new(ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET'], :site => "https://twitter.com/")
             req_token = RequestToken.new(cons, token[:token], token[:secret])
             twitter_id = session['twitter_id']
             access_token = req_token.get_access_token(

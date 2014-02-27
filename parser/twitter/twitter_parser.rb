@@ -1,7 +1,6 @@
 # coding: utf-8
 
 require 'twitter'
-require './parser/twitter/twitter_o_auth_key'
 require 'igo-ruby'
 
 
@@ -9,15 +8,13 @@ class TwitterParser
 
     TAGGER = Igo::Tagger.new('./parser/naistjdic')
 
-    Twitter.configure do |config|
-        config.consumer_key = TwitterOAuthKey::CONSUMER_KEY
-        config.consumer_secret = TwitterOAuthKey::CONSUMER_SECRET
-    end
-
-    def initialize(oauth_token, oauth_token_secret)
-        @client = Twitter::Client.new(
-            :oauth_token => oauth_token,
-            :oauth_token_secret => oauth_token_secret)
+    def initialize(access_token, access_token_secret)
+        @client = Twitter::REST::Client.new do |config|
+            config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
+            config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
+            config.access_token        = access_token
+            config.access_token_secret = access_token_secret
+        end
     end
 
     # 指定したユーザーと同じ興味を持つ知り合いを検索します
