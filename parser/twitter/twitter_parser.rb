@@ -19,29 +19,13 @@ class TwitterParser
 
     # 指定したユーザーと同じ興味を持つ知り合いを検索します
     # Param:: id ユーザー ID (文字列)
-    # Param:: type 検索範囲の種類を決定
-    #   :SEARCH_TYPE_FOLLOWS フォローから
-    #   :SEARCH_TYPE_FOLLOWERS フォロワーから
-    #   :SEARCH_TYPE_FRIENDS フォローかつフォロワーから
-    #   :SEARCH_TYPE_FRIENDS フォローまたはフォロワーから
     # Return:: { "name" => ユーザー ID (文字列), "icon" => ユーザーアイコンの URL }
     #   を1ユーザーのデータとし、
     #   { "user" => id のユーザー, "bros" => {"topics"=>共通する興味の配列, "user"=>検索範囲内のユーザー} の配列 } を返す
-    def find_bros(id, type = :SEARCH_TYPE_ACQUAINTANCE)
+    def find_bros(id)
         # Twitter からデータを取得
         me = @client.user(id)
-        case type
-        when :SEARCH_TYPE_FRIENDS
-            bros_ids = @client.friend_ids(id).collection & @client.follower_ids(id).collection
-            bros = @client.users(bros_ids)
-        when :SEARCH_TYPE_ACQUAINTANCE
-            bros_ids = @client.friend_ids(id).collection | @client.follower_ids(id).collection
-            bros = @client.users(bros_ids)
-        when :SEARCH_TYPE_FOLLOWS
-            bros = @client.users(@client.friend_ids(id).collection)
-        when :SEARCH_TYPE_FOLLOWERS
-            bros = @client.users(@client.follower_ids(id).collection)
-        end
+        bros = @client.friends(me)
 
         # 興味が共通するユーザーの抽出
         me_interests = split_interests(me.description)
